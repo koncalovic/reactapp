@@ -33,7 +33,7 @@ const MovieInfo = (props) => {
             return <p key={i} className="rmdb-director">{element.name}</p>
           })}
         </div>
-        <FaFilm size="4em" />
+        <FaFilm className="fa-film" size="4em" />
       </div>
       
     </div>

@@ -7,6 +7,7 @@ import FourColGrid from '../elements/FourColGrid/FourColGrid';
 import Actor from '../elements/Actor/Actor';
 import Spinner from '../elements/Spinner/Spiner';
 import './Movie.css'; 
+import { FaJournalWhills } from 'react-icons/fa';
 
 
 class Movie extends Component {
@@ -18,10 +19,14 @@ class Movie extends Component {
   }
 
   componentDidMount() {
-    this.setState({ loading: true })
-    // First fetch the movie ...
-    const endpoint = `${API_URL}movie/${this.props.match.params.movieId}?api_key=${API_KEY}&language=en-US`;
-    this.fetchItems(endpoint);
+    if (localStorage.getItem(`${this.props.match.params.movieId}`)) {
+      const state = JSON.parse(localStorage.getItem(`${this.props.match.params.movieId}`));
+    } else {
+      this.setState({ loading: true })
+      // First fetch the movie ...
+      const endpoint = `${API_URL}movie/${this.props.match.params.movieId}?api_key=${API_KEY}&language=en-US`;
+      this.fetchItems(endpoint);
+    }
   }
 
   fetchItems = (endpoint) => {
@@ -44,6 +49,8 @@ class Movie extends Component {
               actors: result.cast,
               directors,
               loading: false
+            }, () => {
+              localStorage.setItem(`${this.props.match.params.movieId}`, JSON.stringify(this.state));
             })
           })
         })
